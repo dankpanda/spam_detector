@@ -16,7 +16,7 @@ truncateType = "post"
 maxLength = 100
 embeddingDim = 64
 trainingRatio = 0.8
-dataset = pd.read_csv("C:/Users/yowen/Desktop/result-clean.csv")
+dataset = pd.read_csv("result-clean.csv")
 
 # Splitting dataset into training and evaluating
 trainSize = int(len(dataset) * trainingRatio)
@@ -64,20 +64,19 @@ evaluatePadded = np.array(pad_sequences(evaluateSequences,maxlen = maxLength, pa
 
 # Defining model
 model = tf.keras.Sequential([
-    # Add an Embedding layer expecting input vocab of size 5000, and output embedding dimension of size 64 we set at the top
     tf.keras.layers.Embedding(numWords, embeddingDim),
     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(embeddingDim)),
-#    tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(32)),
-    # use ReLU in place of tanh function since they are very good alternatives of each other.
     tf.keras.layers.Dense(embeddingDim, activation='relu'),
-    # Add a Dense layer with 6 units and softmax activation.
-    # When we have multiple outputs, softmax convert outputs layers into a probability distribution.
     tf.keras.layers.Dense(4, activation='softmax')
 ])
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 num_epochs = 6
 model.fit(padded, trainingLabels, epochs=num_epochs, validation_data=(evaluatePadded, evaluateLabels))
+
+# Below are the code used to save the model trained from running this code
+# In order for the AI to be exported into a saved model, the code below can be uncommented
+
 # with open('tokenizer.pickle', 'wb') as handle:
    #  pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
