@@ -79,8 +79,8 @@ model.fit(padded, trainingLabels, epochs=num_epochs, validation_data=(evaluatePa
 
 # with open('tokenizer.pickle', 'wb') as handle:
    #  pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
 # model.save("my_model.h5")
+
 while True:
     testA = input(">")
     test = []
